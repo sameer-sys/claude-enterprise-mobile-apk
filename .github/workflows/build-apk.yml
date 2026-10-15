@@ -73,6 +73,8 @@ jobs:
           if [ -d "android" ]; then
             cd android
             chmod +x gradlew
+            # Fix duplicate kotlin-stdlib class conflicts across modern Capacitor & Android dependencies
+            echo "configurations.all { exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'; exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8' }" >> app/build.gradle
             ./gradlew assembleDebug --no-daemon
           fi
 
