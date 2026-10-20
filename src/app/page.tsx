@@ -877,6 +877,12 @@ export default function Home() {
     }
 
     try {
+      let savedWorkspaceMemory: Record<string, string> = {};
+      try {
+        const rawMem = localStorage.getItem('claude_workspace_memory');
+        if (rawMem) savedWorkspaceMemory = JSON.parse(rawMem);
+      } catch {}
+
       const chatBody = {
         messages: [...activeSession.messages, userMessage],
         modelId: activeModel,
@@ -885,6 +891,7 @@ export default function Home() {
         thinkingBudget,
         agentPrompt: activeSession.agentPrompt,
         connectors: currentSessionConnectors,
+        workspaceMemory: savedWorkspaceMemory,
       };
 
       // Composio access/refresh tokens are kept in server-side HttpOnly cookies.
